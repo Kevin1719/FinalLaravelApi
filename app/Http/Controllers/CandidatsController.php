@@ -73,66 +73,56 @@ class CandidatsController extends Controller
             $selectedCINorCIS = null;
             $cv = null;
             $bordereauEsti = null;
-
+            $path = 'dossier/'.$request->nom."".$request->prenom;
             if($request->hasFile('selectedDiplome')){
-                $path = 'public/dossier/Diplome/'.$request->nom;
                 $image_name = $request->file('selectedDiplome')->getClientOriginalName();
-                $diplome = $request->file('selectedDiplome')->storeAs($path,$image_name);
+                $diplome = $request->file('selectedDiplome')->storeAs($path,$image_name,'public');
             }
 
             if($request->hasFile('selectedReleveDeNoteBacc')){
-                $path = 'public/dossier/rlvBacc/'.$request->nom;
                 $image_name = $request->file('selectedReleveDeNoteBacc')->getClientOriginalName();
-                $rlvBacc = $request->file('selectedReleveDeNoteBacc')->storeAs($path,$image_name);
+                $rlvBacc = $request->file('selectedReleveDeNoteBacc')->storeAs($path,$image_name, 'public');
             }
 
 
             if($request->hasFile('selectedReleveDeNoteSeconde')){
-                $path = 'public/dossier/rlvSeconde/'.$request->nom;
                 $image_name = $request->file('selectedReleveDeNoteSeconde')->getClientOriginalName();
-                $rlvSeconde = $request->file('selectedReleveDeNoteSeconde')->storeAs($path,$image_name);
+                $rlvSeconde = $request->file('selectedReleveDeNoteSeconde')->storeAs($path,$image_name, 'public');
             }
 
             if($request->hasFile('selectedReleveDeNotePremiere')){
-                $path = 'public/dossier/rlvPremiere/'.$request->nom;
                 $image_name = $request->file('selectedReleveDeNotePremiere')->getClientOriginalName();
-                $rlvPremiere = $request->file('selectedReleveDeNotePremiere')->storeAs($path,$image_name);
+                $rlvPremiere = $request->file('selectedReleveDeNotePremiere')->storeAs($path,$image_name, 'public');
             }
 
             if($request->hasFile('selectedReleveDeNoteTerminale')){
-                $path = 'public/dossier/rlvTerminale/'.$request->nom;
                 $image_name = $request->file('selectedReleveDeNoteTerminale')->getClientOriginalName();
-                $rlvTerminale = $request->file('selectedReleveDeNoteTerminale')->storeAs($path,$image_name);
+                $rlvTerminale = $request->file('selectedReleveDeNoteTerminale')->storeAs($path,$image_name,'public');
             }
 
             if($request->hasFile('certificatDeResidence')){
-                $path = 'public/dossier/certificatDeResidence/'.$request->nom;
                 $image_name = $request->file('certificatDeResidence')->getClientOriginalName();
-                $certificatDeResidence = $request->file('certificatDeResidence')->storeAs($path,$image_name);
+                $certificatDeResidence = $request->file('certificatDeResidence')->storeAs($path,$image_name, 'public');
             }
 
             if($request->hasFile('selectedPhoto')){
-                $path = 'public/dossier/selectedPhoto/'.$request->nom;
                 $image_name = $request->file('selectedPhoto')->getClientOriginalName();
-                $selectedPhoto = $request->file('selectedPhoto')->storeAs($path,$image_name);
+                $selectedPhoto = $request->file('selectedPhoto')->storeAs($path,$image_name, 'public');
             }
 
             if($request->hasFile('selectedCINorCIS')){
-                $path = 'public/dossier/selectedCINorCIS/'.$request->nom;
                 $image_name = $request->file('selectedCINorCIS')->getClientOriginalName();
-                $selectedCINorCIS = $request->file('selectedCINorCIS')->storeAs($path,$image_name);
+                $selectedCINorCIS = $request->file('selectedCINorCIS')->storeAs($path,$image_name, 'public');
             }
 
             if($request->hasFile('cv')){
-                $path = 'public/dossier/cv/'.$request->nom;
                 $image_name = $request->file('cv')->getClientOriginalName();
-                $cv = $request->file('cv')->storeAs($path,$image_name);
+                $cv = $request->file('cv')->storeAs($path,$image_name, 'public');
             }
 
             if($request->hasFile('bordereauEsti')){
-                $path = 'public/dossier/bordereauEsti/'.$request->nom;
                 $image_name = $request->file('bordereauEsti')->getClientOriginalName();
-                $bordereauEsti = $request->file('bordereauEsti')->storeAs($path,$image_name);
+                $bordereauEsti = $request->file('bordereauEsti')->storeAs($path,$image_name, 'public');
             }
             $candidat = Candidat::create($request->all());
 

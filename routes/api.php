@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\PreparatoiresController;
 use App\Http\Controllers\CandidatsAttenteInscriptionController;
+use App\Http\Controllers\DownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +69,5 @@ Route::middleware(['cors'])->group(function (){
     Route::put('candidats/{id}/abandon',[AdmissionController::class,'abandon']);
     Route::put('candidats/{id}/redouble',[AdmissionController::class,'redouble']);
     Route::post('importing', [ImportController::class,'store']);
+    Route::get('download/{id}',[DownloadController::class,'download']);
 });

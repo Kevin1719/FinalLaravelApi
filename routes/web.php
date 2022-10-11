@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('test');
 });
-Route::post('/importing', [ImportController::class,'store'])->name('import');
+// Route::get('/downloding/{id}', [DownloadController::class,'download'])->name('download')->middleware('cors');
