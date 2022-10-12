@@ -12,7 +12,7 @@ class CandidatsImport implements ToArray, WithHeadingRow
     protected $class_group;
        /**
      * @param mixed $valeur
-     * 
+     *
      * @return aray [$nom ,$prenom]
      */
     public function takeClasseAndGroupe($valeur)
@@ -32,7 +32,7 @@ class CandidatsImport implements ToArray, WithHeadingRow
 
     /**
      * @param mixed $valeur
-     * 
+     *
      * @return array [$classe,$groupe]
      */
     public function takeNomEtPrenom($valeur)
@@ -42,14 +42,14 @@ class CandidatsImport implements ToArray, WithHeadingRow
         $expl_firstname = [];
         $nom_prenom = explode(" ",$valeur);
         $nom = $nom_prenom[0];
-          
+
         foreach($nom_prenom as $k => $expl_fullname){
             if($k != 0 ){
                 $expl_firstname[] = $expl_fullname;
             };
         }
         if(!is_null($expl_firstname)){
-            $prenom = implode("",$expl_firstname);         
+            $prenom = implode("",$expl_firstname);
         }
 
         return [$nom,$prenom];
@@ -81,7 +81,7 @@ class CandidatsImport implements ToArray, WithHeadingRow
     */
     public function array(array $data)
     {
-        
+
         foreach($data as $k => $row){
             if($k === 0){
                 $this->class_group = $this->takeClasseAndGroupe($row[0]);
@@ -102,7 +102,6 @@ class CandidatsImport implements ToArray, WithHeadingRow
                             'entretien' => 1,
                             'status' => $etats[0],
                             'abandon' => $etats[1],
-                            'anneeCandidature' => $anneeCandidature,
                         ]);
                         Niv::create([
                             'annee' => $row['annee'],
@@ -121,7 +120,7 @@ class CandidatsImport implements ToArray, WithHeadingRow
                             'entretien' => 1,
                             'status' => $etats[0],
                             'abandon' => $etats[1],
-                            'anneeCandidature' => $anneeCandidature,
+
                         ]);
                         Niv::create([
                             'annee' => $row['annee'],

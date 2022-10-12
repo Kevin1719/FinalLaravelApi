@@ -12,7 +12,7 @@ class InscriptionsImport implements ToArray, WithHeadingRow
 
     /**
      * @param mixed $valeur
-     * 
+     *
      * @return array [$classe,$groupe]
      */
     public function takeNomEtPrenom($valeur)
@@ -22,14 +22,14 @@ class InscriptionsImport implements ToArray, WithHeadingRow
         $expl_firstname = [];
         $nom_prenom = explode(" ",$valeur);
         $nom = $nom_prenom[0];
-          
+
         foreach($nom_prenom as $k => $expl_fullname){
             if($k != 0 ){
                 $expl_firstname[] = $expl_fullname;
             };
         }
         if(!is_null($expl_firstname)){
-            $prenom = implode("",$expl_firstname);         
+            $prenom = implode("",$expl_firstname);
         }
 
         return [$nom,$prenom];
@@ -55,7 +55,7 @@ class InscriptionsImport implements ToArray, WithHeadingRow
     */
     public function array(array $data)
     {
-        
+
         foreach($data as  $row){
             if(!is_null($row['noms_de_letudiant'])){
                 $anneeCandidature = $this->takeCandidature($row['date_dinscription_de_lannee_scolaire']);
@@ -103,7 +103,7 @@ class InscriptionsImport implements ToArray, WithHeadingRow
                         'professionTuteur' => $row['profession_tuteur'],
                     ]);
                 }
-                
+
             }
         }
     }
