@@ -22,20 +22,31 @@ class CandidatsController extends Controller
 
     public function listeEtudiants()
     {
-        return Candidat::where('candidats.status', '<>', null)->join('nivs', 'nivs.candidat_id', '=', 'candidats.id')
-            ->select('candidats.*','nivs.annee', 'nivs.groupe', 'nivs.classe')
-            ->get();
-        // $candidats = Candidat::where('candidats.status', '<>', null)->join('nivs', 'nivs.candidat_id', '=', 'candidats.id')
+        // return Candidat::where('candidats.status', '<>', null)->join('nivs', 'nivs.candidat_id', '=', 'candidats.id')
         //     ->select('candidats.*','nivs.annee', 'nivs.groupe', 'nivs.classe')
         //     ->get();
-        // $data = [];
-        // foreach($candidats as $candidat){
-        //     $data[] = [
-        //         $candidat,
-        //         'age' => $candidat->age,
-        //     ];
-        // }
-        // return $data;
+        $candidats = Candidat::where('candidats.status', '<>', null)->join('nivs', 'nivs.candidat_id', '=', 'candidats.id')
+            ->select('candidats.*','nivs.annee', 'nivs.groupe', 'nivs.classe')
+            ->get();
+        $data = [];
+        foreach($candidats as $candidat){
+            $data[] = [
+                'id' => $candidat->id,
+                'matricule' => $candidat->matricule,
+                'nom' =>$candidat->nom,
+                'prenom' =>$candidat->prenom,
+                'email' => $candidat->email,
+                'classe' => $candidat->classe,
+                'annee' => $candidat->annee,
+                'genre' => $candidat->genre,
+                'professionPere' => $candidat->professionPere,
+                'professionMere' => $candidat->professionMere,
+                'groupe' => $candidat->groupe,
+                'status' => $candidat->status,
+                'age' => $candidat->age,
+            ];
+        }
+        return $data;
     }
 
     public function listeCandidatures()

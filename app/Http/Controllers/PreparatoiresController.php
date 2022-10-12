@@ -52,7 +52,7 @@ class PreparatoiresController extends Controller
             'adresse' => ['required'],
             'contact' => ['required','numeric'],
             'genre' => ['required'],
-            'bordereauDeDonnee' => ['file']
+            'bordereauDeDonnee' => ['file','mimes:pdf']
         ]);
         if($vs->fails()){
             return response()->json([
@@ -87,7 +87,7 @@ class PreparatoiresController extends Controller
             'adresse' => ['required'],
             'contact' => ['required','numeric'],
             'genre' => ['required'],
-            'bordereauDeDonnee' => ['file']
+            'bordereauDeDonnee' => ['file','mimes:pdf']
         ]);
         if($vs->fails()){
             return response()->json([
