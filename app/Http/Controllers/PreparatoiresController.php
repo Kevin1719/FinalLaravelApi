@@ -60,14 +60,14 @@ class PreparatoiresController extends Controller
             ]);
         } else {
             if($request->hasFile('bordereauDeDonnee')){
-                $path = 'public/dossier/'.$request->nom;
+                $path = 'prepa/'.$request->nom;
                 $image_name = $request->file('bordereauDeDonnee')->getClientOriginalName();
-                $chemin = $request->file('bordereauDeDonnee')->storeAs($path,$image_name);
+                $chemin = $request->file('bordereauDeDonnee')->storeAs($path,$image_name,'public');
             }
 
             $prep = Preparatoire::create($request->all());
             $prep->update([
-                'bordereauDeDonnee' => $chemin,
+                'bordereauDeDonnee' => $path,
                 'annee' => date('Y'),
                 'mois' => date('m'),
             ]);
@@ -95,13 +95,18 @@ class PreparatoiresController extends Controller
             ]);
         } else {
             if($request->hasFile('bordereauDeDonnee')){
-                $path = 'public/dossier/'.$request->nom;
+                $path = 'prepa/'.$request->nom;
                 $image_name = $request->file('bordereauDeDonnee')->getClientOriginalName();
-                $chemin = $request->file('bordereauDeDonnee')->storeAs($path,$image_name);
+                $chemin = $request->file('bordereauDeDonnee')->storeAs($path,$image_name,'public');
             }
 
             $prep = Preparatoire::create($request->all());
-            $prep->update(['bordereauDeDonnee' => $chemin, 'validation' => 1]);
+            $prep->update([
+                'bordereauDeDonnee' => $path,
+                'annee' => date('Y'),
+                'mois' => date('m'),
+                'validation' => 1
+            ]);
             return response()->json([
                 'success' => 'Inscription reussie',
             ], 200);

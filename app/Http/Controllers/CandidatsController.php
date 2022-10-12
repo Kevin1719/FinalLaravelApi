@@ -25,6 +25,17 @@ class CandidatsController extends Controller
         return Candidat::where('candidats.status', '<>', null)->join('nivs', 'nivs.candidat_id', '=', 'candidats.id')
             ->select('candidats.*','nivs.annee', 'nivs.groupe', 'nivs.classe')
             ->get();
+        // $candidats = Candidat::where('candidats.status', '<>', null)->join('nivs', 'nivs.candidat_id', '=', 'candidats.id')
+        //     ->select('candidats.*','nivs.annee', 'nivs.groupe', 'nivs.classe')
+        //     ->get();
+        // $data = [];
+        // foreach($candidats as $candidat){
+        //     $data[] = [
+        //         $candidat,
+        //         'age' => $candidat->age,
+        //     ];
+        // }
+        // return $data;
     }
 
     public function listeCandidatures()

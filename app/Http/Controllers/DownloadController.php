@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use ZipArchive;
 use App\Models\Candidat;
+use App\Models\Preparatoire;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\File;
@@ -40,5 +41,26 @@ class DownloadController extends Controller
         return response()->download(public_path($file_name),$file_name,$headers);
 
 
+    }
+    public function dowloadBorderau(Request $request, $id)
+    {
+        $can = Preparatoire::findOrFail($id);
+        $parts = explode('/',$can->bordereauDeDonnee);
+        $chemin = implode(DIRECTORY_SEPARATOR,$parts);
+        $zip = new ZipArchive;
+        $file_name = $can->prenom."".$can->nom.'.zip';
+        if($zip->open(public_path($file_name), ZipArchive::CREATE) === TRUE){
+            $pth = 'storage'.DIRECTORY_SEPARATOR.$chemin;
+            $files = File::files(public_path($pth));
+            foreach($files as $file) {
+                $relativeNameInZipFile = basename($file);
+                $zip->addFile($file, $relativeNameInZipFile);
+            }
+            $zip->close();
+        }
+        $type = File::mimeType(public_path($file_name));
+        $headers = ['Content-Type' => $type];
+
+        return response()->download(public_path($file_name),$can->nom,$headers);
     }
 }

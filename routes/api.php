@@ -70,4 +70,5 @@ Route::middleware(['cors'])->group(function (){
     Route::put('candidats/{id}/redouble',[AdmissionController::class,'redouble']);
     Route::post('importing', [ImportController::class,'store']);
     Route::get('download/{id}',[DownloadController::class,'download']);
+    Route::get('download/bordereau/{id}',[DownloadController::class, 'dowloadBorderau']);
 });
