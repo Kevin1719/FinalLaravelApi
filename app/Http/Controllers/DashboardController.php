@@ -34,6 +34,7 @@ class DashboardController extends Controller
                 $anneeExist[] = $preparatoire->annee;
             }
         }
+        arsort($anneeExist,SORT_NUMERIC);
         foreach($anneeExist as $year){
             $this->year = $year;
             $count = 0;
