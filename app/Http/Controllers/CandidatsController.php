@@ -43,6 +43,7 @@ class CandidatsController extends Controller
                 'professionMere' => $candidat->professionMere,
                 'groupe' => $candidat->groupe,
                 'status' => $candidat->status,
+                'abandon' => $candidat->abandon,
                 'age' => $candidat->age,
             ];
         }
@@ -174,7 +175,8 @@ class CandidatsController extends Controller
      */
     public function show(Candidat $candidat)
     {
-
+        $parts = explode('/',$candidat->selectedDiplome);
+        $chem = 'storage'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$parts);
         return [
             "id" => $candidat->id,
             'nom' => $candidat->nom,
@@ -210,7 +212,8 @@ class CandidatsController extends Controller
             "finish" => $candidat->finish,
             "abandon" => $candidat->abandon,
             "finishL3" => $candidat->finishL3,
-            "historique" => $candidat->niveaux
+            "selectedDiplome" => public_path($chem),
+            "historique" => $candidat->niveaux,
         ];
     }
 
@@ -269,5 +272,28 @@ class CandidatsController extends Controller
                 'success' => 1,
             ],200);
         }
+    }
+    public function supprimer($id)
+    {
+        $candidat = Candidat::findOrFail($id);
+        $candidat->delete();
+
+        return response()->json(['success' => 'donnee supprimer']);
+    }
+    public function listeCandidatParAnnee()
+    {
+        $candidats = Candidat::all();
+        $data = [];
+        foreach($candidats as $candidat){
+            $data[] = [
+                'nom' => $candidat->nom,
+                'prenom' => $candidat->prenom,
+                'genre' => $candidat->genre,
+                'age' => $candidat->age,
+                'niveau' => $candidat->postule,
+                'anneeCandidature' => $candidat->anneeCandidature,
+            ];
+        }
+        return $data;
     }
 }

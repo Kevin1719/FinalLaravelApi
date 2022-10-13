@@ -58,6 +58,7 @@ Route::middleware(['cors'])->group(function (){
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('liste/candidatures',[CandidatsController::class,'listeCandidatures']);
+    Route::get('liste/candidatures/annee',[CandidatsController::class,'listeCandidatParAnnee']);
     Route::put('candidats/{id}/concours/present',[ConcoursController::class,'autorise']);
     Route::put('candidats/{id}/maj',[CandidatsController::class,'maj']);
     Route::put('candidats/{id}/concours/abscent',[ConcoursController::class,'refused']);
@@ -67,6 +68,8 @@ Route::middleware(['cors'])->group(function (){
     Route::get('candidats/inscription/attente', [CandidatsAttenteInscriptionController::class,'getList']);
     Route::put('candidats/{id}/admis',[AdmissionController::class,'admis']);
     Route::put('candidats/{id}/abandon',[AdmissionController::class,'abandon']);
+    Route::put('candidats/{id}/annulAbandon',[AdmissionController::class,'rollBackAbandon']);
+    Route::delete('candidats/{id}/delete',[CandidatsController::class,'supprimer']);
     Route::put('candidats/{id}/redouble',[AdmissionController::class,'redouble']);
     Route::post('importing', [ImportController::class,'store']);
     Route::get('download/{id}',[DownloadController::class,'download']);

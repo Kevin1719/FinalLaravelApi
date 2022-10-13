@@ -105,6 +105,18 @@ class AdmissionController extends Controller
         }
         return response()->json(['success' => 1], 200);
     }
+    public function rollBackAbandon(int $id)
+    {
+        $candidat = Candidat::findOrFail($id);
+        if($candidat->classeEnCours == 'L3' || $candidat->classeEnCours == 'L2' || $candidat->classeEnCours == 'L1'){
+            $candidat->update(['status' => 'En cours', 'abandon' => 0,]);
+            Niv::where('annee',date('Y'))->where('candidat_id',$id)->update(['status' => 'En cours']);
+        } elseif($candidat->classeEnCours == 'M1' || $candidat->classeEnCours == 'M2'){
+            $candidat->update(['status' => 'Licence/En cours', 'abandon' => 0,]);
+            Niv::where('annee',date('Y'))->where('candidat_id',$id)->update(['status' => 'Licence/En cours']);
+        }
+        return response()->json(['success' => 1], 200);
+    }
 
     /**
      * @param Request $request
@@ -115,53 +127,14 @@ class AdmissionController extends Controller
     public function redouble(Request $request, int $id)
     {
         $candidat = Candidat::findOrFail($id);
-        $groupe = $request->query('groupe');
-        if($candidat->classe == 'L1') {
-            $l1 = L1Model::where('candidat_id',$id)->orderByDesc('annee')->first();
-            L1Model::create([
+
+            $l1 = Niv::where('candidat_id',$id)->orderByDesc('annee')->first();
+            Niv::create([
                 'annee' => $l1->annee + 1,
+                'classe' => $l1->classe,
                 'candidat_id' => $candidat->id,
-                'groupe' => $groupe,
+                'groupe' => $l1->groupe,
             ]);
             return response()->json(['success' => 1],200);
-
-        }elseif($candidat->classe == 'L2'){
-            $l2 = L2Model::where('candidat_id',$id)->orderByDesc('annee')->first();
-            L2Model::create([
-                'annee' => $l2->annee + 1,
-                'candidat_id' => $candidat->id,
-                'groupe' => $groupe,
-            ]);
-            return response()->json(['success' => 1],200);
-
-        }elseif($candidat->classe == 'L3'){
-            $l3 = L3Model::where('candidat_id',$id)->orderByDesc('annee')->first();
-            L3Model::create([
-                'annee' => $l3->annee + 1,
-                'candidat_id' => $candidat->id,
-                'groupe' => $groupe,
-            ]);
-            return response()->json(['success' => 1],200);
-
-        }elseif($candidat->classe == 'M1'){
-            $m1 = M1Model::where('candidat_id',$id)->orderByDesc('annee')->first();
-            M1Model::create([
-                'annee' => $m1->annee + 1,
-                'candidat_id' => $candidat->id,
-                'groupe' => $groupe,
-            ]);
-            return response()->json(['success' => 1],200);
-
-        }else {
-            $m2 = M2Model::where('candidat_id',$id)->orderByDesc('annee')->first();
-            M2Model::create([
-                'annee' => $m2->annee + 1,
-                'candidat_id' => $candidat->id,
-                'groupe' => $groupe,
-            ]);
-            return response()->json(['success' => 1],200);
-        }
-
-
     }
 }
