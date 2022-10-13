@@ -296,4 +296,20 @@ class CandidatsController extends Controller
         }
         return $data;
     }
+    public function listeCandidatParAnneeNonAdmis()
+    {
+        $candidats = Candidat::where('entretien', 0)->get();
+        $data = [];
+        foreach($candidats as $candidat){
+            $data[] = [
+                'nom' => $candidat->nom,
+                'prenom' => $candidat->prenom,
+                'genre' => $candidat->genre,
+                'age' => $candidat->age,
+                'niveau' => $candidat->postule,
+                'anneeCandidature' => $candidat->anneeCandidature,
+            ];
+        }
+        return $data;
+    }
 }

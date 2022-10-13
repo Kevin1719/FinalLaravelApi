@@ -91,9 +91,7 @@ class DashboardController extends Controller
                     'nombreInscritT' => Niv::where('annee',$year)->count(),
 
                     'nombreInscritL1' => Niv::where('annee',$year)->where('classe', 'L1')->count(),
-                    'nbrL1EnCour' => Niv::where('annee', $year)->where('classe','L1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },0)->count(),
+
                     'nombreInscritL1Garcon' => Niv::where('annee', $year)->where('classe','L1')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
@@ -102,9 +100,7 @@ class DashboardController extends Controller
                     },'F')->count(),
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     'nombreInscritL2' => Niv::where('annee',$year)->where('classe', 'L2')->count(),
-                    'nbrL2EnCour' => Niv::where('annee', $year)->where('classe','L2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },0)->count(),
+
                     'nombreInscritL2Garcon' => Niv::where('annee', $year)->where('classe','L2')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
@@ -113,9 +109,7 @@ class DashboardController extends Controller
                     },'F')->count(),
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     'nombreInscritL3' => Niv::where('annee',$year)->where('classe', 'L3')->count(),
-                    'nbrL3EnCour' => Niv::where('annee', $year)->where('classe','L3')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },0)->count(),
+
                     'nombreInscritL3Garcon' => Niv::where('annee', $year)->where('classe','L3')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
@@ -125,9 +119,7 @@ class DashboardController extends Controller
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     'nombreInscritM1' => Niv::where('annee',$year)->where('classe', 'M1')->count(),
-                    'nbrM1EnCour' => Niv::where('annee', $year)->where('classe','M1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },0)->count(),
+
                     'nombreInscritM1Garcon' => Niv::where('annee', $year)->where('classe','M1')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
@@ -136,9 +128,7 @@ class DashboardController extends Controller
                     },'F')->count(),
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     'nombreInscritM2' => Niv::where('annee',$year)->where('classe', 'M2')->count(),
-                    'nbrM2EnCour' => Niv::where('annee', $year)->where('classe','M2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },0)->count(),
+
                     'nombreInscritM2Garcon' => Niv::where('annee', $year)->where('classe','M2')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
@@ -146,110 +136,139 @@ class DashboardController extends Controller
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'F')->count(),
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    'nombreAbondonT' => Niv::where('annee',$year)->where(function ($query){
-                                                                    $query->select('abandon')
+                    'nombreAbondonT' => Niv::where('annee',$year)->where('status','Abondon')->count(),
+
+                    'nombreAbondonTGarcon' => Niv::where('annee',$year)->where('status','Abondon')->
+                                                                where(function ($query){
+                                                                    $query->select('genre')
                                                                         ->from('candidats')
                                                                         ->whereColumn('candidats.id', 'nivs.candidat_id');
-                                                                }, 1)
+                                                                }, 'G')
                                                                 ->count(),
-
-                    'nombreAbondonTGarcon' => Niv::where('annee',$year)->where(function ($query){
-                                                                    $query->select('abandon')
-                                                                        ->from('candidats')
-                                                                        ->where('genre','G')
-                                                                        ->whereColumn('candidats.id', 'nivs.candidat_id');
-                                                                }, 1)
-                                                                ->count(),
-                    'nombreAbondonTFemme' => Niv::where('annee',$year)->where(function ($query){
-                                                                    $query->select('abandon')
-                                                                        ->from('candidats')
-                                                                        ->where('genre','F')
-                                                                        ->whereColumn('candidats.id', 'nivs.candidat_id');
-                                                                }, 1)
-                                                                ->count(),
+                    'nombreAbondonTFemme' => Niv::where('annee',$year)->where('status','Abondon')
+                                                                    ->where(function ($query){
+                                                                        $query->select('genre')
+                                                                            ->from('candidats')
+                                                                            ->whereColumn('candidats.id', 'nivs.candidat_id');
+                                                                        }, 'F')
+                                                                    ->count(),
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    'nombreAbondonL1' => Niv::where('annee', $year)->where('classe','L1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->count(),
+                    'nombreAbondonL1' => Niv::where('annee', $year)->where('classe','L1')->where('status','Abondon')->count(),
 
-                    'nombreAbondonGarconL1' =>Niv::where('annee', $year)->where('classe','L1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonGarconL1' =>Niv::where('annee', $year)->where('classe','L1')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
 
-                    'nombreAbondonFilleL1' => Niv::where('annee', $year)->where('classe','L1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonFilleL1' => Niv::where('annee', $year)->where('classe','L1')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'F')->count(),
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                     'nombreAbondonL2' => Niv::where('annee', $year)->where('classe','L2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->count(),
+                     'nombreAbondonL2' => Niv::where('annee', $year)->where('classe','L2')->where('status','Abondon')->count(),
 
-                    'nombreAbondonGarconL2' =>Niv::where('annee', $year)->where('classe','L2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonGarconL2' =>Niv::where('annee', $year)->where('classe','L2')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
 
-                    'nombreAbondonFilleL2' => Niv::where('annee', $year)->where('classe','L2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonFilleL2' => Niv::where('annee', $year)->where('classe','L2')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'F')->count(),
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    'nombreAbondonL3' => Niv::where('annee', $year)->where('classe','L3')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->count(),
+                    'nombreAbondonL3' => Niv::where('annee', $year)->where('classe','L3')->where('status','Abondon')->count(),
 
-                    'nombreAbondonGarconL3' =>Niv::where('annee', $year)->where('classe','L3')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonGarconL3' =>Niv::where('annee', $year)->where('classe','L3')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
 
-                    'nombreAbondonFilleL3' => Niv::where('annee', $year)->where('classe','L3')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonFilleL3' => Niv::where('annee', $year)->where('classe','L3')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'F')->count(),
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    'nombreAbondonM1' => Niv::where('annee', $year)->where('classe','L1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->count(),
+                    'nombreAbondonM1' => Niv::where('annee', $year)->where('classe','M1')->where('status','Abondon')->count(),
 
-                    'nombreAbondonGarconM1' =>Niv::where('annee', $year)->where('classe','M1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonGarconM1' =>Niv::where('annee', $year)->where('classe','M1')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
 
-                    'nombreAbondonFilleM1' => Niv::where('annee', $year)->where('classe','M1')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonFilleM1' => Niv::where('annee', $year)->where('classe','M1')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'F')->count(),
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    'nombreAbondonM2' => Niv::where('annee', $year)->where('classe','M2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->count(),
+                    'nombreAbondonM2' => Niv::where('annee', $year)->where('classe','M2')->where('status','Abondon')->count(),
 
-                    'nombreAbondonGarconM2' =>Niv::where('annee', $year)->where('classe','M2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonGarconM2' =>Niv::where('annee', $year)->where('classe','M2')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'G')->count(),
 
-                    'nombreAbondonFilleM2' => Niv::where('annee', $year)->where('classe','M2')->where(function ($query){
-                        $query->select('abandon')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
-                    },1)->where(function ($query){
+                    'nombreAbondonFilleM2' => Niv::where('annee', $year)->where('classe','M2')->where('status','Abondon')->where(function ($query){
                         $query->select('genre')->from('candidats')->whereColumn('candidats.id','=','nivs.candidat_id');
                     },'F')->count(),
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatCompletT' => Candidat::where('anneeCandidature', $year)->count(),
+                    'nombreCandidatCompletL1' =>Candidat::where('anneeCandidature', $year)->where('postule','L1')->count(),
+                    'nombreCandidatCompletL1G' =>Candidat::where('anneeCandidature', $year)->where('postule','L1')->where('genre','G')->count(),
+                    'nombreCandidatCompletL1F' =>Candidat::where('anneeCandidature', $year)->where('postule','L1')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatCompletL2' =>Candidat::where('anneeCandidature', $year)->where('postule','L2')->count(),
+                    'nombreCandidatCompletL2G' =>Candidat::where('anneeCandidature', $year)->where('postule','L2')->where('genre','G')->count(),
+                    'nombreCandidatCompletL2F' =>Candidat::where('anneeCandidature', $year)->where('postule','L2')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatCompletL3' =>Candidat::where('anneeCandidature', $year)->where('postule','L3')->count(),
+                    'nombreCandidatCompletL3G' =>Candidat::where('anneeCandidature', $year)->where('postule','L3')->where('genre','G')->count(),
+                    'nombreCandidatCompletL3F' =>Candidat::where('anneeCandidature', $year)->where('postule','L3')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatCompletM1' =>Candidat::where('anneeCandidature', $year)->where('postule','M1')->count(),
+                    'nombreCandidatCompletM1G' =>Candidat::where('anneeCandidature', $year)->where('postule','M1')->where('genre','G')->count(),
+                    'nombreCandidatCompletM1F' =>Candidat::where('anneeCandidature', $year)->where('postule','M1')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatCompletM2' =>Candidat::where('anneeCandidature', $year)->where('postule','M2')->count(),
+                    'nombreCandidatCompletM2G' =>Candidat::where('anneeCandidature', $year)->where('postule','M2')->where('genre','G')->count(),
+                    'nombreCandidatCompletM2F' =>Candidat::where('anneeCandidature', $year)->where('postule','M2')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatValideT' => Candidat::where('anneeCandidature',$year)->where('entretien',1)->count(),
+                    'nombreCandidatValideL1'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L1')->count(),
+                    'nombreCandidatValideL1G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L1')->where('genre','G')->count(),
+                    'nombreCandidatValideL1F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L1')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatValideL2'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L2')->count(),
+                    'nombreCandidatValideL2G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L2')->where('genre','G')->count(),
+                    'nombreCandidatValideL2F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L2')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatValideL3'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L3')->count(),
+                    'nombreCandidatValideL3G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L3')->where('genre','G')->count(),
+                    'nombreCandidatValideL3F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','L3')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatValideM1'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','M1')->count(),
+                    'nombreCandidatValideM1G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','M1')->where('genre','G')->count(),
+                    'nombreCandidatValideM1F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','M1')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatValideM2'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','M2')->count(),
+                    'nombreCandidatValideM2G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','M2')->where('genre','G')->count(),
+                    'nombreCandidatValideM2F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 1)->where('postule','M2')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatInValideT' => Candidat::where('anneeCandidature',$year)->where('entretien',0)->count(),
+                    'nombreCandidatInValideL1'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L1')->count(),
+                    'nombreCandidatInValideL1G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L1')->where('genre','G')->count(),
+                    'nombreCandidatInValideL1F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L1')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatInValideL2'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L2')->count(),
+                    'nombreCandidatInValideL2G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L2')->where('genre','G')->count(),
+                    'nombreCandidatInValideL2F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L2')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatInValideL3'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L3')->count(),
+                    'nombreCandidatInValideL3G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L3')->where('genre','G')->count(),
+                    'nombreCandidatInValideL3F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','L3')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatInValideM1'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','M1')->count(),
+                    'nombreCandidatInValideM1G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','M1')->where('genre','G')->count(),
+                    'nombreCandidatInValideM1F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','M1')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    'nombreCandidatInValideM2'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','M2')->count(),
+                    'nombreCandidatInValideM2G'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','M2')->where('genre','G')->count(),
+                    'nombreCandidatInValideM2F'=> Candidat::where('anneeCandidature', $year)->where('entretien', 0)->where('postule','M2')->where('genre','F')->count(),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ];
         }
 

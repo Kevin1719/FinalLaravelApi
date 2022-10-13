@@ -59,6 +59,7 @@ Route::middleware(['cors'])->group(function (){
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('liste/candidatures',[CandidatsController::class,'listeCandidatures']);
     Route::get('liste/candidatures/annee',[CandidatsController::class,'listeCandidatParAnnee']);
+    Route::get('liste/candidatures/nonAdmis',[CandidatsController::class,'listeCandidatParAnneeNonAdmis']);
     Route::put('candidats/{id}/concours/present',[ConcoursController::class,'autorise']);
     Route::put('candidats/{id}/maj',[CandidatsController::class,'maj']);
     Route::put('candidats/{id}/concours/abscent',[ConcoursController::class,'refused']);
